@@ -17,8 +17,7 @@ WORKDIR /var/lib/boinc
 
 # Copy files
 COPY bin/ /usr/bin/
-
-COPY ./update-cron /etc/cron.d/update-cron
+# COPY ./update-cron /etc/crontabs/root/
 
 # Expose BOINC RPC port
 EXPOSE 31416
@@ -30,9 +29,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get -y install cron \
     && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
-RUN chmod 0644 /etc/cron.d/update-cron
-RUN crontab /etc/cron.d/update-cron
-RUN touch /var/log/cron.log
+# RUN chmod 0644 /etc/crontabs/root
+# Add the cron job
+# /usr/bin/boinccmd --project http://boincdev.sos.space/pytest update
+# RUN crontab -l | { cat; echo "*/2 * * * * /usr/bin/boinccmd --project $BOINC_PROJECT_URL update"; } | crontab -
+# RUN (crontab -l 2>/dev/null; echo "*/2 * * * * /usr/bin/boinccmd --project $BOINC_PROJECT_URL update") | crontab -
+RUN (crontab -l 2>/dev/null; echo "*/2 * * * * echo "Cron job started at $(date)" >> /var/log/boinc_update.log && cd /var/lib/boinc && /usr/bin/boinccmd --project http://boincdev.sos.space/pytest update >> /var/log/boinc_update.log 2>&1") | crontab -
+
+RUN (crontab -l 2>/dev/null; echo "* * * * * echo 'Hola' >> /var/log/hola.log 2>&1") | crontab -
 
 
 # Run the BOINC client
