@@ -1,0 +1,2 @@
+BOINC_PROJECT_URL=http://boincdev.sos.space/pytest
+*/5 * * * * /usr/bin/boinccmd --project $BOINC_PROJECT_URL update
