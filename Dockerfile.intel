@@ -14,6 +14,9 @@ ENV BOINC_GUI_RPC_PASSWORD="123" \
 # Copy files
 COPY bin/ /usr/bin/
 RUN ls -l /usr/bin/start-boinc-autostart.sh
+
+RUN chmod +x /usr/bin/start-boinc-autostart.sh
+
 # Configure
 WORKDIR /var/lib/boinc
 
