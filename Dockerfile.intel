@@ -30,12 +30,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # Install BOINC Client & cron
     boinc-client \ 
     cron \
+    dos2unix  \
     # Install Intel NEO OpenCL
     intel-opencl-icd && \
     # Cleaning up
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
+RUN dos2unix /usr/bin/start-boinc-autostart.sh
+
 # Run the BOINC client
-ENTRYPOINT [ "sh", "-c", "cron && /usr/bin/start-boinc-autostart.sh"]
+ENTRYPOINT [ "sh", "-c", "cron && start-boinc-autostart.sh"]
 # ENTRYPOINT [ "sh", "-c", "cron && /usr/bin/start-boinc-autostart.sh"]
