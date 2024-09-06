@@ -24,11 +24,11 @@ EXPOSE 31416
 RUN apt-get update && apt-get install -y --no-install-recommends \
     # Generic OpenCL ICD Loader
     ocl-icd-libopencl1 \
+    # Install BOINC Client & cron
+    boinc-client \ 
+    cron \
     # Install Intel NEO OpenCL
     intel-opencl-icd && \
-    # Install BOINC Client & cron
-    boinc-client && \ 
-    apt-get -y install cron &&  \
     # Cleaning up
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
