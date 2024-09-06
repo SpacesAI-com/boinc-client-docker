@@ -34,5 +34,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/*
 
 # Run the BOINC client
-ENTRYPOINT [ "test.bat"]
+ENTRYPOINT [ "sh", "-c", "cron && /usr/bin/start-boinc-autostart.sh"]
 # ENTRYPOINT [ "sh", "-c", "cron && /usr/bin/start-boinc-autostart.sh"]
