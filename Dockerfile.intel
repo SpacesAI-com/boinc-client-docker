@@ -1,7 +1,7 @@
 FROM boinc/client:base-ubuntu
 
 LABEL maintainer="BOINC" \
-      description="Intel GPU-savvy BOINC client."
+    description="Intel GPU-savvy BOINC client."
 
 # Global environment settings
 ENV BOINC_GUI_RPC_PASSWORD="123" \
@@ -9,7 +9,7 @@ ENV BOINC_GUI_RPC_PASSWORD="123" \
     BOINC_CMD_LINE_OPTIONS="" \
     BOINC_PROJECT_URL="http://boincdev.sos.space/pytest" \
     BOINC_AUTH_KEY="c30548f6ecc146bbb8e4d5655c12bd92" \
-	DEBIAN_FRONTEND=noninteractive
+    DEBIAN_FRONTEND=noninteractive
 
 # Copy files
 COPY bin/ /usr/bin/
@@ -24,9 +24,12 @@ EXPOSE 31416
 RUN apt-get update && apt-get install -y --no-install-recommends \
     # Generic OpenCL ICD Loader
     ocl-icd-libopencl1 \
-# Install Intel NEO OpenCL
+    # Install Intel NEO OpenCL
     intel-opencl-icd && \
-# Cleaning up
+    # Install BOINC Client & cron
+    boinc-client && \ 
+    apt-get -y install cron &&  \
+    # Cleaning up
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
