@@ -1,4 +1,4 @@
-FROM boinc/client:base-ubuntu
+FROM ubuntu:23.04
 
 LABEL maintainer="BOINC" \
     description="Intel GPU-savvy BOINC client."
