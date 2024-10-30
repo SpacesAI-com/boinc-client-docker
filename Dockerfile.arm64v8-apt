@@ -1,0 +1,45 @@
+FROM arm64v8/ubuntu:rolling
+
+LABEL maintainer="BOINC" \
+    description="A lightweight BOINC client on ARMv8 64-bit architecture."
+
+# Global environment settings
+ENV BOINC_PROJECT_URL="http://boincdev.sos.space/devsai"
+ENV BOINC_AUTH_KEY="73fe8fffa9236af20aadb2fa6007de9d"
+# ENV BOINC_PROJECT_URL="http://boincdev.sos.space/pytest"
+# ENV BOINC_AUTH_KEY="c30548f6ecc146bbb8e4d5655c12bd92"
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Copy files
+COPY bin/ /usr/bin/
+
+# Configure
+WORKDIR /var/lib/boinc
+
+# BOINC RPC port
+EXPOSE 31416
+
+# Install system dependencies and build tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    tzdata \
+    boinc-client \
+    cron \
+    python3 \
+    python3-venv \
+    python3-pip \
+    python3-dev \
+    ffmpeg \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create and activate a virtual environment for Python dependencies
+RUN python3 -m venv /opt/venv && \
+    . /opt/venv/bin/activate && \
+    pip install --no-cache-dir numpy scipy pillow requests ipfsapi pydub
+
+# Ensure the virtual environment is activated by default
+ENV PATH="/opt/venv/bin:$PATH"
+
+# CMD ["start-boinc.sh"]
+# Run the BOINC client
+ENTRYPOINT [ "sh", "-c", "cron && start-boinc-autostart.sh"]
