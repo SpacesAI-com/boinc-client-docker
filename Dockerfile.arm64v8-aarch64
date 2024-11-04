@@ -7,10 +7,10 @@ LABEL maintainer="BOINC" \
 ENV BOINC_GUI_RPC_PASSWORD="123" \
     BOINC_REMOTE_HOST="127.0.0.1" \
     BOINC_CMD_LINE_OPTIONS="" \
-    BOINC_PROJECT_URL="http://boincdev.sos.space/pytest" \
-    BOINC_AUTH_KEY="c30548f6ecc146bbb8e4d5655c12bd92" \
+    BOINC_PROJECT_URL="http://boincdev.sos.space/devsai" \
+    BOINC_AUTH_KEY="73fe8fffa9236af20aadb2fa6007de9d" \
 	DEBIAN_FRONTEND=noninteractive
-
+    
 # Copy files
 COPY bin/ /usr/bin/
 
