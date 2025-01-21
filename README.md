@@ -137,17 +137,26 @@ while true; do echo -n "This is a test of while loop";date ; sleep 5
 ### x86_64-pc-linux-gnu (intel)
 
 ```sh
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
 docker build -t boinc-client:x86_64 -f Dockerfile.intel .
 docker tag boinc-client:x86_64 docker.io/spaceaidocker/boinc-client:x86_64
 docker push docker.io/spaceaidocker/boinc-client:x86_64
 
 # -v "%LOCALAPPDATA%\boinc_data:/var/lib/boinc" ^
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
 docker run -d --name boinc --device /dev/dri:/dev/dri docker.io/spaceaidocker/boinc-client:x86_64
 
-# -e BOINC_GUI_RPC_PASSWORD="123" ^
-# -e BOINC_CMD_LINE_OPTIONS="--allow_remote_gui_rpc" ^
-# -e BOINC_PROJECT_URL="http://boincdev.sos.space/demosai/" ^
-# -e BOINC_AUTH_KEY="d899927056927aa7689efd924174281f" ^
+# --network host \
+docker run -d \
+    --name boinc-client \
+    --network lalala \
+    -v "$(pwd)/temp":/usr/src/app \
+    boinc-client:x86_64
+
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name
+
+curl --location 'http://localhost:3000/kubo/repostat'
+curl --location 'http://ipfs-api:3000/kubo/repostat'
 
 http://34.170.126.6/demosai/
 
@@ -155,7 +164,7 @@ boinccmd --project
 
 docker run -it boinc-client:intel bash
 
-  docker container stop boinc && docker container rm boinc
+docker container stop boinc && docker container rm boinc
 
 docker run -it --entrypoint "bash" docker.io/spaceaidocker/boinc-client:intel
 

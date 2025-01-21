@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ocl-icd-libopencl1 \
     # Install BOINC Client & cron
     boinc-client \ 
-    cron \
+    cron curl \
     dos2unix  \
     # Install Intel NEO OpenCL
     intel-opencl-icd && \

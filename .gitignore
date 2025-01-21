@@ -1,5 +1,6 @@
 # folders
 node_modules
+temp
 archive
 .boost
 .DS_Store
