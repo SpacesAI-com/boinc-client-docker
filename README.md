@@ -149,14 +149,13 @@ docker run -d --name boinc --device /dev/dri:/dev/dri docker.io/spaceaidocker/bo
 # --network host \
 docker run -d \
     --name boinc-client \
-    --network lalala \
     -v "$(pwd)/temp":/usr/src/app \
     boinc-client:x86_64
 
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name
 
-curl --location 'http://localhost:3000/kubo/repostat'
-curl --location 'http://ipfs-api:3000/kubo/repostat'
+curl --location 'http://localhost:3000/kubo/repo/stat'
+curl --location 'http://ipfs-api:3000/kubo/repo/stat'
 
 http://34.170.126.6/demosai/
 
